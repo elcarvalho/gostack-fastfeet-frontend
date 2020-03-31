@@ -20,9 +20,15 @@ export default createGlobalStyle`
 
   html, body, #root {
     height: 100%;
+    background: #F5F5F5;
+  }
+
+  h2 {
+    font-size: 24px;
   }
 
   body {
+    color: #444444;
     -webkit-font-smoothing: antialiased;
   }
 
