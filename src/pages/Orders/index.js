@@ -4,7 +4,14 @@ import { MdSearch, MdAdd, MdMoreHoriz } from 'react-icons/md';
 import AvatarName from '~/components/AvatarName';
 import ActionButtons from './ActionButtons';
 
-import { Container, NavBar, TableContent, StatusTag, Actions } from './styles';
+import {
+  Container,
+  NavBar,
+  TableContent,
+  StatusTag,
+  Actions,
+  Deliveryman,
+} from './styles';
 
 export default function Orders() {
   const [selectedRow, setSelectedRow] = useState(0);
@@ -52,7 +59,10 @@ export default function Orders() {
             <td>#01</td>
             <td>Ludwig van Beethoven</td>
             <td>
-              <AvatarName size={36} originalName="Ludwig van Beethoven" />
+              <Deliveryman>
+                <AvatarName size={36} originalName="Ludwig van Beethoven" />
+                Ludwig van Beethoven
+              </Deliveryman>
             </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
@@ -73,7 +83,10 @@ export default function Orders() {
             <td>#02</td>
             <td>Wolfgang Amadeus</td>
             <td>
-              <AvatarName size={36} originalName="Wolfgang Amadeus" />
+              <Deliveryman>
+                <AvatarName size={36} originalName="Wolfgang Amadeus" />
+                Wolfgang Amadeus
+              </Deliveryman>
             </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
@@ -94,7 +107,10 @@ export default function Orders() {
             <td>#03</td>
             <td>Johann Sebastian Bach</td>
             <td>
-              <AvatarName size={36} originalName="Johann Sebastian Bach" />
+              <Deliveryman>
+                <AvatarName size={36} originalName="Johann Sebastian Bach" />
+                Johann Sebastian Bach
+              </Deliveryman>
             </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
@@ -115,7 +131,10 @@ export default function Orders() {
             <td>#04</td>
             <td>ILkui</td>
             <td>
-              <AvatarName size={36} originalName="Ramon Gonzales" />
+              <Deliveryman>
+                <AvatarName size={36} originalName="Ramon Gonzales" />
+                Ramon Gonzales
+              </Deliveryman>
             </td>
             <td>Rio do Sul</td>
             <td>Santa Catarina</td>
@@ -136,7 +155,10 @@ export default function Orders() {
             <td>#05</td>
             <td>Eric</td>
             <td>
-              <AvatarName size={36} originalName="Eric" />
+              <Deliveryman>
+                <AvatarName size={36} originalName="Eric" />
+                Eric
+              </Deliveryman>
             </td>
             <td>Rio de Janeiro</td>
             <td>Rio de Janeiro</td>

@@ -138,3 +138,8 @@ export const StatusTag = styled.div`
     `;
   }}
 `;
+
+export const Deliveryman = styled.div`
+  display: flex;
+  align-items: center;
+`;
