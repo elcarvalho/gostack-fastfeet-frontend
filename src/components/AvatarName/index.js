@@ -24,7 +24,6 @@ export default function AvatarName({ originalName, size }) {
   return (
     <Container color={avatar.hexa} size={size}>
       <span>{avatar.name}</span>
-      {originalName}
     </Container>
   );
 }

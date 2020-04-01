@@ -5,12 +5,14 @@ import Route from './Route';
 import SignIn from '~/pages/SignIn';
 
 import Orders from '~/pages/Orders';
+import Deliverymen from '~/pages/Deliverymen';
 
 export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
       <Route path="/orders" component={Orders} isPrivate />
+      <Route path="/deliverymen" component={Deliverymen} isPrivate />
     </Switch>
   );
 }
