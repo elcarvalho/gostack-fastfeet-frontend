@@ -1,9 +1,10 @@
 import React from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
 
+import ActionsBar from '~/components/ActionsBar';
 import ActionButtons from '~/components/ActionButtons';
 
-import { Container, NavBar, TableContent } from './styles';
+import { Container, TableContent } from './styles';
 
 export default function Recipients() {
   const handleEdit = (id) => {
@@ -29,7 +30,7 @@ export default function Recipients() {
     <Container>
       <h2>Gerenciando destinatários</h2>
 
-      <NavBar>
+      <ActionsBar>
         <div>
           <MdSearch size={21} color="#999999" />
           <input type="text" placeholder="Buscar por destinatários" />
@@ -39,7 +40,7 @@ export default function Recipients() {
           <MdAdd size={21} color="#FFFFFF" />
           CADASTRAR
         </button>
-      </NavBar>
+      </ActionsBar>
 
       <TableContent>
         <thead>

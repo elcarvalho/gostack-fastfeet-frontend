@@ -1,16 +1,11 @@
 import React from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
 
+import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
 import ActionButtons from '~/components/ActionButtons';
 
-import {
-  Container,
-  NavBar,
-  TableContent,
-  StatusTag,
-  Deliveryman,
-} from './styles';
+import { Container, TableContent, StatusTag, Deliveryman } from './styles';
 
 export default function Orders() {
   const handleShow = (id) => {
@@ -44,7 +39,7 @@ export default function Orders() {
     <Container>
       <h2>Gerenciando encomendas</h2>
 
-      <NavBar>
+      <ActionsBar>
         <div>
           <MdSearch size={21} color="#999999" />
           <input type="text" placeholder="Buscar por encomendas" />
@@ -54,7 +49,7 @@ export default function Orders() {
           <MdAdd size={21} color="#FFFFFF" />
           CADASTRAR
         </button>
-      </NavBar>
+      </ActionsBar>
 
       <TableContent>
         <thead>

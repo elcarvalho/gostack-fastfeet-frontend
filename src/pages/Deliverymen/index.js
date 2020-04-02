@@ -1,10 +1,11 @@
 import React from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
 
+import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
 import ActionButtons from '~/components/ActionButtons';
 
-import { Container, NavBar, TableContent } from './styles';
+import { Container, TableContent } from './styles';
 
 export default function Deliverymen() {
   const handleEdit = (id) => {
@@ -30,7 +31,7 @@ export default function Deliverymen() {
     <Container>
       <h2>Gerenciando entregadores</h2>
 
-      <NavBar>
+      <ActionsBar>
         <div>
           <MdSearch size={21} color="#999999" />
           <input type="text" placeholder="Buscar por entregadores" />
@@ -40,7 +41,7 @@ export default function Deliverymen() {
           <MdAdd size={21} color="#FFFFFF" />
           CADASTRAR
         </button>
-      </NavBar>
+      </ActionsBar>
 
       <TableContent>
         <thead>
