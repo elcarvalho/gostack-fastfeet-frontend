@@ -1,6 +1,18 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
+export const Actions = styled.div`
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  button {
+    border: 0;
+    background: #fff;
+    padding: 5px;
+  }
+`;
+
 export const ListAction = styled.nav`
   display: ${(props) => (props.show ? 'block' : 'none')};
 
@@ -26,7 +38,7 @@ export const ListAction = styled.nav`
   }
 
   ul li {
-    a {
+    button {
       display: flex;
       align-items: center;
       font-size: 16px;

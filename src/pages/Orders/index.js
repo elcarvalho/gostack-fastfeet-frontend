@@ -1,29 +1,44 @@
-import React, { useState } from 'react';
-import { MdSearch, MdAdd, MdMoreHoriz } from 'react-icons/md';
+import React from 'react';
+import { MdSearch, MdAdd } from 'react-icons/md';
 
 import AvatarName from '~/components/AvatarName';
-import ActionButtons from './ActionButtons';
+import ActionButtons from '~/components/ActionButtons';
 
 import {
   Container,
   NavBar,
   TableContent,
   StatusTag,
-  Actions,
   Deliveryman,
 } from './styles';
 
 export default function Orders() {
-  const [selectedRow, setSelectedRow] = useState(0);
-
-  const handleMenuActions = (id) => {
-    if (id === selectedRow) {
-      setSelectedRow(0);
-      return;
-    }
-
-    setSelectedRow(id);
+  const handleShow = (id) => {
+    alert(`Visualizando ${id}`);
   };
+
+  const handleEdit = (id) => {
+    alert(`Editando ${id}`);
+  };
+
+  const handleDelete = (id) => {
+    alert(`Removendo ${id}`);
+  };
+
+  const actionOptions = [
+    {
+      type: 'show',
+      action: handleShow,
+    },
+    {
+      type: 'edit',
+      action: handleEdit,
+    },
+    {
+      type: 'delete',
+      action: handleDelete,
+    },
+  ];
 
   return (
     <Container>
@@ -70,12 +85,7 @@ export default function Orders() {
               <StatusTag status="ENTREGUE">ENTREGUE</StatusTag>
             </td>
             <td>
-              <Actions>
-                <button type="button" onClick={() => handleMenuActions(1)}>
-                  <MdMoreHoriz size={21} color="#C6C6C6" />
-                </button>
-                <ActionButtons showActions={1 === selectedRow} />
-              </Actions>
+              <ActionButtons id={1} options={actionOptions} />
             </td>
           </tr>
 
@@ -94,12 +104,7 @@ export default function Orders() {
               <StatusTag status="PENDENTE">PENDENTE</StatusTag>
             </td>
             <td>
-              <Actions>
-                <button type="button" onClick={() => handleMenuActions(2)}>
-                  <MdMoreHoriz size={16} color="#C6C6C6" />
-                </button>
-                <ActionButtons showActions={2 === selectedRow} />
-              </Actions>
+              <ActionButtons id={2} options={actionOptions} />
             </td>
           </tr>
 
@@ -118,12 +123,7 @@ export default function Orders() {
               <StatusTag status="RETIRADA">RETIRADA</StatusTag>
             </td>
             <td>
-              <Actions>
-                <button type="button" onClick={() => handleMenuActions(3)}>
-                  <MdMoreHoriz size={16} color="#C6C6C6" />
-                </button>
-                <ActionButtons showActions={3 === selectedRow} />
-              </Actions>
+              <ActionButtons id={3} options={actionOptions} />
             </td>
           </tr>
 
@@ -142,12 +142,7 @@ export default function Orders() {
               <StatusTag status="CANCELADA">CANCELADA</StatusTag>
             </td>
             <td>
-              <Actions>
-                <button type="button" onClick={() => handleMenuActions(4)}>
-                  <MdMoreHoriz size={16} color="#C6C6C6" />
-                </button>
-                <ActionButtons showActions={4 === selectedRow} />
-              </Actions>
+              <ActionButtons id={4} options={actionOptions} />
             </td>
           </tr>
 
@@ -166,12 +161,7 @@ export default function Orders() {
               <StatusTag status="ENTREGUE">ENTREGUE</StatusTag>
             </td>
             <td>
-              <Actions>
-                <button type="button" onClick={() => handleMenuActions(5)}>
-                  <MdMoreHoriz size={16} color="#C6C6C6" />
-                </button>
-                <ActionButtons showActions={5 === selectedRow} />
-              </Actions>
+              <ActionButtons id={5} options={actionOptions} />
             </td>
           </tr>
         </tbody>

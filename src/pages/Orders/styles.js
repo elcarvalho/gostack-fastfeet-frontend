@@ -88,18 +88,6 @@ export const TableContent = styled.table`
   }
 `;
 
-export const Actions = styled.div`
-  display: flex;
-  justify-content: center;
-  position: relative;
-
-  button {
-    border: 0;
-    background: #fff;
-    padding: 5px;
-  }
-`;
-
 export const StatusTag = styled.div`
   display: flex;
   align-items: center;
