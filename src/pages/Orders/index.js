@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
+
+import api from '~/services/api';
 
 import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
@@ -9,6 +11,7 @@ import TableWrapper from '~/components/TableWrapper';
 import { StatusTag, Deliveryman } from './styles';
 
 export default function Orders() {
+  const [orderList, setOrderList] = useState([]);
   const handleShow = (id) => {
     alert(`Visualizando ${id}`);
   };
@@ -35,6 +38,30 @@ export default function Orders() {
       action: handleDelete,
     },
   ];
+
+  const getStatus = (order) => {
+    const { startDate, endDate, canceledAt } = order;
+
+    if (canceledAt) return 'CANCELADA';
+    if (!startDate && !endDate) return 'PENDENTE';
+    if (startDate && endDate) return 'ENTREGUE';
+    if (startDate && !endDate) return 'RETIRADA';
+  };
+
+  useEffect(() => {
+    async function loadOrders() {
+      const response = await api.get('orders');
+      const orders = response.data.map((order) => {
+        order.hashId = `#${String(order.id).padStart(3, 0)}`;
+        order.status = getStatus(order);
+        return order;
+      });
+
+      setOrderList(orders);
+    }
+
+    loadOrders();
+  }, []);
 
   return (
     <main>
@@ -66,100 +93,26 @@ export default function Orders() {
         </thead>
 
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>Ludwig van Beethoven</td>
-            <td>
-              <Deliveryman>
-                <AvatarName size={36} originalName="Ludwig van Beethoven" />
-                Ludwig van Beethoven
-              </Deliveryman>
-            </td>
-            <td>Rio do Sul</td>
-            <td>Santa Catarina</td>
-            <td>
-              <StatusTag status="ENTREGUE">ENTREGUE</StatusTag>
-            </td>
-            <td>
-              <ActionButtons id={1} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#02</td>
-            <td>Wolfgang Amadeus</td>
-            <td>
-              <Deliveryman>
-                <AvatarName size={36} originalName="Wolfgang Amadeus" />
-                Wolfgang Amadeus
-              </Deliveryman>
-            </td>
-            <td>Rio do Sul</td>
-            <td>Santa Catarina</td>
-            <td>
-              <StatusTag status="PENDENTE">PENDENTE</StatusTag>
-            </td>
-            <td>
-              <ActionButtons id={2} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#03</td>
-            <td>Johann Sebastian Bach</td>
-            <td>
-              <Deliveryman>
-                <AvatarName size={36} originalName="Johann Sebastian Bach" />
-                Johann Sebastian Bach
-              </Deliveryman>
-            </td>
-            <td>Rio do Sul</td>
-            <td>Santa Catarina</td>
-            <td>
-              <StatusTag status="RETIRADA">RETIRADA</StatusTag>
-            </td>
-            <td>
-              <ActionButtons id={3} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#04</td>
-            <td>ILkui</td>
-            <td>
-              <Deliveryman>
-                <AvatarName size={36} originalName="Ramon Gonzales" />
-                Ramon Gonzales
-              </Deliveryman>
-            </td>
-            <td>Rio do Sul</td>
-            <td>Santa Catarina</td>
-            <td>
-              <StatusTag status="CANCELADA">CANCELADA</StatusTag>
-            </td>
-            <td>
-              <ActionButtons id={4} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#05</td>
-            <td>Eric</td>
-            <td>
-              <Deliveryman>
-                <AvatarName size={36} originalName="Eric" />
-                Eric
-              </Deliveryman>
-            </td>
-            <td>Rio de Janeiro</td>
-            <td>Rio de Janeiro</td>
-            <td>
-              <StatusTag status="ENTREGUE">ENTREGUE</StatusTag>
-            </td>
-            <td>
-              <ActionButtons id={5} options={actionOptions} />
-            </td>
-          </tr>
+          {orderList.map((order) => (
+            <tr key={order.hashId}>
+              <td>{order.hashId}</td>
+              <td>{order.recipient.name}</td>
+              <td>
+                <Deliveryman>
+                  <AvatarName size={36} originalName={order.deliveryman.name} />
+                  {order.deliveryman.name}
+                </Deliveryman>
+              </td>
+              <td>{order.recipient.city}</td>
+              <td>{order.recipient.state}</td>
+              <td>
+                <StatusTag status={order.status}>{order.status}</StatusTag>
+              </td>
+              <td>
+                <ActionButtons id={order.id} options={actionOptions} />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </TableWrapper>
     </main>
