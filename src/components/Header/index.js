@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MdMenu, MdClose, MdPowerSettingsNew } from 'react-icons/md';
 
 import logo from '~/assets/fastfeet-logo.png';
@@ -28,16 +29,16 @@ export default function Header() {
         </button>
         <NavList showMenu={isOpen}>
           <NavLink active>
-            <a href="/">ENCOMENDAS</a>
+            <Link to="orders">ENCOMENDAS</Link>
           </NavLink>
           <NavLink>
-            <a href="/">ENTREGADORES</a>
+            <Link to="deliverymen">ENTREGADORES</Link>
           </NavLink>
           <NavLink>
-            <a href="/">DESTINATÁRIOS</a>
+            <Link to="recipients">DESTINATÁRIOS</Link>
           </NavLink>
           <NavLink>
-            <a href="/">PROBLEMAS</a>
+            <Link to="order-problems">PROBLEMAS</Link>
           </NavLink>
         </NavList>
       </nav>
