@@ -19,7 +19,7 @@ export const ListAction = styled.nav`
 
   position: absolute;
   background: #fff;
-  width: 150px;
+  width: max-content;
   padding: 10px;
   top: 90%;
   box-shadow: 0px 0px 2px #00000026;
@@ -39,6 +39,8 @@ export const ListAction = styled.nav`
   }
 
   ul li {
+    padding-right: 10px;
+
     button {
       display: flex;
       align-items: center;

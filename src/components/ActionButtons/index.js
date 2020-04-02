@@ -12,27 +12,27 @@ export default function ActionButtons({ id, options }) {
   const [isVisible, setIsVisible] = useState(false);
 
   const listItens = {
-    show: (id, action) => (
+    show: (id, item) => (
       <li key={String(`show-${id}`)}>
-        <button type="button" onClick={() => action(id)}>
+        <button type="button" onClick={() => item.action(id)}>
           <MdRemoveRedEye size={16} color="#8E5BE8" />
-          Visualizar
+          {item.buttonTitle || 'Visualizar'}
         </button>
       </li>
     ),
-    edit: (id, action) => (
+    edit: (id, item) => (
       <li key={String(`edit-${id}`)}>
-        <button type="button" onClick={() => action(id)}>
+        <button type="button" onClick={() => item.action(id)}>
           <MdModeEdit size={16} color="#4D85EE" />
-          Editar
+          {item.buttonTitle || 'Editar'}
         </button>
       </li>
     ),
-    delete: (id, action) => (
+    delete: (id, item) => (
       <li key={String(`delete-${id}`)}>
-        <button type="button" onClick={() => action(id)}>
+        <button type="button" onClick={() => item.action(id)}>
           <MdDeleteForever size={16} color="#DE3B3B" />
-          Excluir
+          {item.buttonTitle || 'Excluir'}
         </button>
       </li>
     ),
@@ -50,9 +50,7 @@ export default function ActionButtons({ id, options }) {
       </button>
       <ListAction show={isVisible} onMouseOut={() => setIsVisible(false)}>
         {options.length > 0 && (
-          <ul>
-            {options.map((item) => listItens[item.type](id, item.action))}
-          </ul>
+          <ul>{options.map((item) => listItens[item.type](id, item))}</ul>
         )}
       </ListAction>
     </Actions>
