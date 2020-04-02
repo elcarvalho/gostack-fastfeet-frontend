@@ -4,8 +4,9 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
 import ActionButtons from '~/components/ActionButtons';
+import TableWrapper from '~/components/TableWrapper';
 
-import { Container, TableContent, StatusTag, Deliveryman } from './styles';
+import { StatusTag, Deliveryman } from './styles';
 
 export default function Orders() {
   const handleShow = (id) => {
@@ -36,7 +37,7 @@ export default function Orders() {
   ];
 
   return (
-    <Container>
+    <main>
       <h2>Gerenciando encomendas</h2>
 
       <ActionsBar>
@@ -51,7 +52,7 @@ export default function Orders() {
         </button>
       </ActionsBar>
 
-      <TableContent>
+      <TableWrapper>
         <thead>
           <tr>
             <th>ID</th>
@@ -160,7 +161,7 @@ export default function Orders() {
             </td>
           </tr>
         </tbody>
-      </TableContent>
-    </Container>
+      </TableWrapper>
+    </main>
   );
 }

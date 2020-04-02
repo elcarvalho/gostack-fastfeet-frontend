@@ -3,8 +3,7 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 
 import ActionsBar from '~/components/ActionsBar';
 import ActionButtons from '~/components/ActionButtons';
-
-import { Container, TableContent } from './styles';
+import TableWrapper from '~/components/TableWrapper';
 
 export default function Recipients() {
   const handleEdit = (id) => {
@@ -27,7 +26,7 @@ export default function Recipients() {
   ];
 
   return (
-    <Container>
+    <main>
       <h2>Gerenciando destinatários</h2>
 
       <ActionsBar>
@@ -42,7 +41,7 @@ export default function Recipients() {
         </button>
       </ActionsBar>
 
-      <TableContent>
+      <TableWrapper>
         <thead>
           <tr>
             <th>ID</th>
@@ -98,7 +97,7 @@ export default function Recipients() {
             </td>
           </tr>
         </tbody>
-      </TableContent>
-    </Container>
+      </TableWrapper>
+    </main>
   );
 }

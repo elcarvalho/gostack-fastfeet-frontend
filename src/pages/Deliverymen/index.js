@@ -4,8 +4,7 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
 import ActionButtons from '~/components/ActionButtons';
-
-import { Container, TableContent } from './styles';
+import TableWrapper from '~/components/TableWrapper';
 
 export default function Deliverymen() {
   const handleEdit = (id) => {
@@ -28,7 +27,7 @@ export default function Deliverymen() {
   ];
 
   return (
-    <Container>
+    <main>
       <h2>Gerenciando entregadores</h2>
 
       <ActionsBar>
@@ -43,7 +42,7 @@ export default function Deliverymen() {
         </button>
       </ActionsBar>
 
-      <TableContent>
+      <TableWrapper>
         <thead>
           <tr>
             <th>ID</th>
@@ -115,7 +114,7 @@ export default function Deliverymen() {
             </td>
           </tr>
         </tbody>
-      </TableContent>
-    </Container>
+      </TableWrapper>
+    </main>
   );
 }

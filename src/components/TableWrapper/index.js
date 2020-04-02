@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
-
-export const TableContent = styled.table`
+export default styled.table`
   margin-top: 22px;
   font-size: 16px;
   color: #666666;

@@ -1,8 +1,7 @@
 import React from 'react';
 
 import ActionButtons from '~/components/ActionButtons';
-
-import { Container, TableContent } from './styles';
+import TableWrapper from '~/components/TableWrapper';
 
 export default function OrderProblems() {
   const handleEdit = (id) => {
@@ -27,10 +26,10 @@ export default function OrderProblems() {
   ];
 
   return (
-    <Container>
+    <main>
       <h2>Problemas na entrega</h2>
 
-      <TableContent>
+      <TableWrapper>
         <thead>
           <tr>
             <th>Encomenda</th>
@@ -83,7 +82,7 @@ export default function OrderProblems() {
             </td>
           </tr>
         </tbody>
-      </TableContent>
-    </Container>
+      </TableWrapper>
+    </main>
   );
 }
