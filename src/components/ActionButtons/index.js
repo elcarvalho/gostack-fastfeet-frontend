@@ -41,11 +41,14 @@ export default function ActionButtons({ id, options }) {
   const handleToggleMenu = () => setIsVisible(!isVisible);
 
   return (
-    <Actions>
+    <Actions
+      onMouseOver={() => setIsVisible(true)}
+      onMouseOut={() => setIsVisible(false)}
+    >
       <button type="button" onClick={handleToggleMenu}>
         <MdMoreHoriz size={21} color="#C6C6C6" />
       </button>
-      <ListAction show={isVisible}>
+      <ListAction show={isVisible} onMouseOut={() => setIsVisible(false)}>
         {options.length > 0 && (
           <ul>
             {options.map((item) => listItens[item.type](id, item.action))}

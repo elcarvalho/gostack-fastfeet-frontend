@@ -5,6 +5,7 @@ export const Actions = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  height: 100%;
 
   button {
     border: 0;
@@ -20,7 +21,7 @@ export const ListAction = styled.nav`
   background: #fff;
   width: 150px;
   padding: 10px;
-  top: calc(100% + 10px);
+  top: 90%;
   box-shadow: 0px 0px 2px #00000026;
   z-index: 10;
   border-radius: 4px;
