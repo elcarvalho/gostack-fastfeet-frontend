@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { MdMenu, MdClose, MdPowerSettingsNew } from 'react-icons/md';
 
 import history from '~/services/history';
 
 import logo from '~/assets/fastfeet-logo.png';
 
-import { HeaderContainer, NavList, NavLink, Link } from './styles';
+import { HeaderContainer, NavList, NavLink, Link, Logout } from './styles';
+
+import { signOut } from '~/store/modules/auth/actions';
 
 export default function Header() {
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('');
+  const profile = useSelector((state) => state.user.profile);
 
   const handleOpenMenu = () => {
     setIsOpen(!isOpen);
@@ -19,6 +25,10 @@ export default function Header() {
     history.push(path);
     setIsOpen(false);
     setCurrentPage(path);
+  };
+
+  const handleSignOut = () => {
+    dispatch(signOut());
   };
 
   useEffect(() => {
@@ -76,10 +86,10 @@ export default function Header() {
       </nav>
 
       <div>
-        <strong>Admin Fastfeet</strong>
-        <a href="/">sair do sistema</a>
+        <strong>{profile.name}</strong>
+        <Logout onClick={handleSignOut}>sair do sistema</Logout>
 
-        <button type="button">
+        <button type="button" onClick={handleSignOut}>
           <MdPowerSettingsNew size={26} color="#de3b3b" />
         </button>
       </div>

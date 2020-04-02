@@ -53,15 +53,6 @@ export const HeaderContainer = styled.header`
       color: #666666;
     }
 
-    a {
-      color: #de3b3b;
-      transition: opacity 0.2s;
-
-      &:hover {
-        opacity: 0.8;
-      }
-    }
-
     button {
       display: none;
       border: none;
@@ -80,6 +71,16 @@ export const HeaderContainer = styled.header`
         display: none;
       }
     }
+  }
+`;
+
+export const Logout = styled.a`
+  color: #de3b3b;
+  transition: opacity 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
   }
 `;
 
@@ -118,6 +119,7 @@ export const Link = styled.a`
   font-size: 15px;
   font-weight: bold;
   transition: color 0.2s;
+  cursor: pointer;
 
   &:hover {
     color: #444444;
