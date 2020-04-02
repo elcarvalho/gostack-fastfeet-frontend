@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { MdMenu, MdClose, MdPowerSettingsNew } from 'react-icons/md';
+
+import history from '~/services/history';
 
 import logo from '~/assets/fastfeet-logo.png';
 
-import { HeaderContainer, NavList, NavLink } from './styles';
+import { HeaderContainer, NavList, NavLink, Link } from './styles';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState('');
 
   const handleOpenMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleNavigate = (path) => {
+    history.push(path);
+    setIsOpen(false);
+    setCurrentPage(path);
+  };
+
+  useEffect(() => {
+    setCurrentPage(history.location.pathname);
+  }, []);
 
   return (
     <HeaderContainer>
@@ -28,17 +40,37 @@ export default function Header() {
           )}
         </button>
         <NavList showMenu={isOpen}>
-          <NavLink active>
-            <Link to="orders">ENCOMENDAS</Link>
+          <NavLink>
+            <Link
+              active={currentPage === '/orders'}
+              onClick={() => handleNavigate('/orders')}
+            >
+              ENCOMENDAS
+            </Link>
           </NavLink>
           <NavLink>
-            <Link to="deliverymen">ENTREGADORES</Link>
+            <Link
+              active={currentPage === '/deliverymen'}
+              onClick={() => handleNavigate('/deliverymen')}
+            >
+              ENTREGADORES
+            </Link>
           </NavLink>
           <NavLink>
-            <Link to="recipients">DESTINATÁRIOS</Link>
+            <Link
+              active={currentPage === '/recipients'}
+              onClick={() => handleNavigate('/recipients')}
+            >
+              DESTINATÁRIOS
+            </Link>
           </NavLink>
           <NavLink>
-            <Link to="order-problems">PROBLEMAS</Link>
+            <Link
+              active={currentPage === '/order-problems'}
+              onClick={() => handleNavigate('/order-problems')}
+            >
+              PROBLEMAS
+            </Link>
           </NavLink>
         </NavList>
       </nav>

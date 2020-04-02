@@ -104,22 +104,22 @@ export const NavList = styled.ul`
 export const NavLink = styled.li`
   margin-right: 20px;
 
-  a {
-    color: ${(props) => (props.active ? '#444444' : '#999999')};
-    font-size: 15px;
-    font-weight: bold;
-    transition: color 0.2s;
-
-    &:hover {
-      color: #444444;
-    }
-  }
-
   @media (max-width: 900px) {
     margin-right: 0;
 
     & + li {
       margin-top: 20px;
     }
+  }
+`;
+
+export const Link = styled.a`
+  color: ${(props) => (props.active ? '#444444' : '#999999')};
+  font-size: 15px;
+  font-weight: bold;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #444444;
   }
 `;
