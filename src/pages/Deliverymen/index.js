@@ -3,6 +3,7 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 
 import { Form } from '@unform/web';
 import Input from '~/components/Input';
+import transformHashId from '~/utils/transformHashId';
 
 import api from '~/services/api';
 
@@ -48,7 +49,7 @@ export default function Deliverymen() {
   const remapDeliverymen = useCallback(
     (deliverymen) =>
       deliverymen.map((deliveryman) => {
-        deliveryman.hashId = `#${String(deliveryman.id).padStart(3, 0)}`;
+        deliveryman.hashId = transformHashId(deliveryman.id, 3);
         return deliveryman;
       }),
     []
@@ -94,7 +95,7 @@ export default function Deliverymen() {
         <tbody>
           {deliverymanList &&
             deliverymanList.map((deliveryman) => (
-              <tr>
+              <tr key={deliveryman.hashId}>
                 <td>{deliveryman.hashId}</td>
                 <td>
                   <AvatarName size={36} originalName={deliveryman.name} />

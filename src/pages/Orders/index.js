@@ -3,6 +3,7 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 
 import { Form } from '@unform/web';
 import Input from '~/components/Input';
+import transformHashId from '~/utils/transformHashId';
 
 import api from '~/services/api';
 
@@ -61,7 +62,7 @@ export default function Orders() {
   const remapOrders = useCallback(
     (orders) =>
       orders.map((order) => {
-        order.hashId = `#${String(order.id).padStart(3, 0)}`;
+        order.hashId = transformHashId(order.id, 3);
         order.status = getStatus(order);
         return order;
       }),
