@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { MdSearch, MdAdd } from 'react-icons/md';
+import { MdAdd } from 'react-icons/md';
 
-import { Form } from '@unform/web';
-import Input from '~/components/Input';
 import transformHashId from '~/utils/transformHashId';
 
 import api from '~/services/api';
@@ -11,6 +9,7 @@ import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
 import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
+import Search from '~/components/Search';
 
 export default function Deliverymen() {
   const [deliverymanList, setDeliverymanList] = useState([]);
@@ -70,10 +69,10 @@ export default function Deliverymen() {
       <h2>Gerenciando entregadores</h2>
 
       <ActionsBar>
-        <Form onSubmit={handleSubmit}>
-          <MdSearch size={21} color="#999999" />
-          <Input type="text" name="q" placeholder="Buscar por entregadores" />
-        </Form>
+        <Search
+          handleSubmit={handleSubmit}
+          placeholder="Buscar por entregadores"
+        />
 
         <button type="button">
           <MdAdd size={21} color="#FFFFFF" />
