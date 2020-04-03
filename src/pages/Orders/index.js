@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
+
+import { Form } from '@unform/web';
+import Input from '~/components/Input';
 
 import api from '~/services/api';
 
@@ -12,6 +15,7 @@ import { StatusTag, Deliveryman } from './styles';
 
 export default function Orders() {
   const [orderList, setOrderList] = useState([]);
+
   const handleShow = (id) => {
     alert(`Visualizando ${id}`);
   };
@@ -48,30 +52,47 @@ export default function Orders() {
     if (startDate && !endDate) return 'RETIRADA';
   };
 
-  useEffect(() => {
-    async function loadOrders() {
-      const response = await api.get('orders');
-      const orders = response.data.map((order) => {
+  const handleSubmit = async (data) => {
+    const response = await getOrders(data);
+    const mappedOrders = remapOrders(response);
+    setOrderList(mappedOrders);
+  };
+
+  const remapOrders = useCallback(
+    (orders) =>
+      orders.map((order) => {
         order.hashId = `#${String(order.id).padStart(3, 0)}`;
         order.status = getStatus(order);
         return order;
-      });
+      }),
+    []
+  );
 
-      setOrderList(orders);
-    }
-
-    loadOrders();
+  const getOrders = useCallback(async (queryParam) => {
+    const query = queryParam ? { params: queryParam } : {};
+    const response = await api.get('orders', query);
+    return response.data;
   }, []);
+
+  const loadOrders = useCallback(async () => {
+    const orders = await getOrders();
+    const mappedOrders = remapOrders(orders);
+    setOrderList(mappedOrders);
+  }, [getOrders, remapOrders]);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
 
   return (
     <main>
       <h2>Gerenciando encomendas</h2>
 
       <ActionsBar>
-        <div>
+        <Form onSubmit={handleSubmit}>
           <MdSearch size={21} color="#999999" />
-          <input type="text" placeholder="Buscar por encomendas" />
-        </div>
+          <Input type="text" name="q" placeholder="Buscar por encomendas" />
+        </Form>
 
         <button type="button">
           <MdAdd size={21} color="#FFFFFF" />

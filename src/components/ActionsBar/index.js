@@ -11,7 +11,7 @@ export default styled.div`
     margin-right: 8px;
   }
 
-  div {
+  form {
     display: flex;
     align-items: center;
     background: #fff;
