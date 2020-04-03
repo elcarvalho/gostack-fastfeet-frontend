@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
+
+import { Form } from '@unform/web';
+import Input from '~/components/Input';
+
+import api from '~/services/api';
+import transformHashId from '~/utils/transformHashId';
 
 import ActionsBar from '~/components/ActionsBar';
 import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
 
 export default function Recipients() {
+  const [recipientList, setRecipientList] = useState([]);
+
   const handleEdit = (id) => {
     alert(`Editando ${id}`);
   };
@@ -25,15 +33,48 @@ export default function Recipients() {
     },
   ];
 
+  const handleSubmit = async (data) => {
+    const response = await getRecipients(data);
+    const mappedRecipients = remapRecipients(response);
+    setRecipientList(mappedRecipients);
+  };
+
+  const getRecipients = useCallback(async (queryParam) => {
+    const query = queryParam ? { params: queryParam } : {};
+
+    const response = await api.get('recipients', query);
+    return response.data;
+  }, []);
+
+  const remapRecipients = useCallback(
+    (recipients) =>
+      recipients.map((recipient) => {
+        recipient.hashId = transformHashId(recipient.id, 3);
+        recipient.fullRecipient = `${recipient.street}, ${recipient.number}, ${recipient.city} - ${recipient.state}`;
+        return recipient;
+      }),
+    []
+  );
+
+  const loadRecipients = useCallback(async () => {
+    const response = await getRecipients();
+    const recipents = remapRecipients(response);
+    setRecipientList(recipents);
+  }, [getRecipients, remapRecipients]);
+
+  useEffect(() => {
+    loadRecipients();
+  }, [loadRecipients]);
+
   return (
     <main>
       <h2>Gerenciando destinatários</h2>
 
       <ActionsBar>
-        <div>
+        <Form onSubmit={handleSubmit}>
           <MdSearch size={21} color="#999999" />
-          <input type="text" placeholder="Buscar por destinatários" />
-        </div>
+          <Input type="text" name="q" placeholder="Buscar por destinatários" />
+        </Form>
 
         <button type="button">
           <MdAdd size={21} color="#FFFFFF" />
@@ -52,50 +93,17 @@ export default function Recipients() {
         </thead>
 
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>Luiz Henrique</td>
-            <td>Rua das camélias, 100, Rio de Janeiro - RJ</td>
-            <td>
-              <ActionButtons id={1} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#02</td>
-            <td>Wolfgang Amadeus</td>
-            <td>Av. Américas, 1000, Rio de Janeiro - RJ</td>
-            <td>
-              <ActionButtons id={2} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#03</td>
-            <td>Johann Sebastian Bach</td>
-            <td>Largo do Arouche, 300, São Paulo - SP</td>
-            <td>
-              <ActionButtons id={3} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#04</td>
-            <td>ILkui</td>
-            <td>Hikarigaoka, 179, Nerima - Tokyo</td>
-            <td>
-              <ActionButtons id={4} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#05</td>
-            <td>Eric</td>
-            <td>Rua Tabelião Luiz Guaraná, 260, Rio de Janeiro - RJ</td>
-            <td>
-              <ActionButtons id={5} options={actionOptions} />
-            </td>
-          </tr>
+          {recipientList &&
+            recipientList.map((recipient) => (
+              <tr key={recipient.hashId}>
+                <td>{recipient.hashId}</td>
+                <td>{recipient.name}</td>
+                <td>{recipient.fullRecipient}</td>
+                <td>
+                  <ActionButtons id={recipient.id} options={actionOptions} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </TableWrapper>
     </main>
