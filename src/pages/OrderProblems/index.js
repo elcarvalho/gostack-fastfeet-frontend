@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+
+import api from '~/services/api';
+import transformHashId from '~/utils/transformHashId';
 
 import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
 
 export default function OrderProblems() {
+  const [problemsList, setProblemsList] = useState([]);
+
   const handleEdit = (id) => {
     alert(`Editando ${id}`);
   };
@@ -25,6 +30,30 @@ export default function OrderProblems() {
     },
   ];
 
+  const remapOrdersProblems = useCallback(
+    (ordersProblems) =>
+      ordersProblems.map((problem) => {
+        problem.hashId = transformHashId(problem.id, 3);
+        return problem;
+      }),
+    []
+  );
+
+  const getOrderProblems = useCallback(async () => {
+    const response = await api.get('deliveries/problems');
+    return response.data;
+  }, []);
+
+  const loadOrderProblems = useCallback(async () => {
+    const response = await getOrderProblems();
+    const orderProblems = remapOrdersProblems(response);
+    setProblemsList(orderProblems);
+  }, [getOrderProblems, remapOrdersProblems]);
+
+  useEffect(() => {
+    loadOrderProblems();
+  }, [loadOrderProblems]);
+
   return (
     <main>
       <h2>Problemas na entrega</h2>
@@ -39,48 +68,16 @@ export default function OrderProblems() {
         </thead>
 
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in
-              mauris et felis eleifend elementum vel quis lectus…
-            </td>
-            <td>
-              <ActionButtons id={1} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#02</td>
-            <td>Destinatário ausente</td>
-            <td>
-              <ActionButtons id={2} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#03</td>
-            <td>Carga roubada</td>
-            <td>
-              <ActionButtons id={3} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#04</td>
-            <td>Destinatário ausente</td>
-            <td>
-              <ActionButtons id={4} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#05</td>
-            <td>Infelizmente sofri um acidente que danificou a encomenda</td>
-            <td>
-              <ActionButtons id={5} options={actionOptions} />
-            </td>
-          </tr>
+          {problemsList &&
+            problemsList.map((problem) => (
+              <tr key={problem.hashId}>
+                <td>{problem.hashId}</td>
+                <td>{problem.description}</td>
+                <td>
+                  <ActionButtons id={problem.id} options={actionOptions} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </TableWrapper>
     </main>
