@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
+
+import { Form } from '@unform/web';
+import Input from '~/components/Input';
+
+import api from '~/services/api';
 
 import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
@@ -7,6 +12,8 @@ import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
 
 export default function Deliverymen() {
+  const [deliverymanList, setDeliverymanList] = useState([]);
+
   const handleEdit = (id) => {
     alert(`Editando ${id}`);
   };
@@ -26,15 +33,46 @@ export default function Deliverymen() {
     },
   ];
 
+  const handleSubmit = async (data) => {
+    const response = await getDeliverymen(data);
+    const mappedDeliverymen = remapDeliverymen(response);
+    setDeliverymanList(mappedDeliverymen);
+  };
+
+  const getDeliverymen = useCallback(async (queryParam) => {
+    const query = queryParam ? { params: queryParam } : {};
+    const response = await api.get('deliverymen', query);
+    return response.data;
+  }, []);
+
+  const remapDeliverymen = useCallback(
+    (deliverymen) =>
+      deliverymen.map((deliveryman) => {
+        deliveryman.hashId = `#${String(deliveryman.id).padStart(3, 0)}`;
+        return deliveryman;
+      }),
+    []
+  );
+
+  const loadDeliverymen = useCallback(async () => {
+    const response = await getDeliverymen();
+    const mappedDeliverymen = remapDeliverymen(response);
+    setDeliverymanList(mappedDeliverymen);
+  }, [getDeliverymen, remapDeliverymen]);
+
+  useEffect(() => {
+    loadDeliverymen();
+  }, [loadDeliverymen]);
+
   return (
     <main>
       <h2>Gerenciando entregadores</h2>
 
       <ActionsBar>
-        <div>
+        <Form onSubmit={handleSubmit}>
           <MdSearch size={21} color="#999999" />
-          <input type="text" placeholder="Buscar por entregadores" />
-        </div>
+          <Input type="text" name="q" placeholder="Buscar por entregadores" />
+        </Form>
 
         <button type="button">
           <MdAdd size={21} color="#FFFFFF" />
@@ -54,65 +92,20 @@ export default function Deliverymen() {
         </thead>
 
         <tbody>
-          <tr>
-            <td>#01</td>
-            <td>
-              <AvatarName size={36} originalName="Luiz Henrique" />
-            </td>
-            <td>Luiz Henrique</td>
-            <td>luiz.henrique@gmail.com</td>
-            <td>
-              <ActionButtons id={1} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#02</td>
-            <td>
-              <AvatarName size={36} originalName="Wolfgang Amadeus" />
-            </td>
-            <td>Wolfgang Amadeus</td>
-            <td>wolfang.amadeus@gmail.com</td>
-            <td>
-              <ActionButtons id={2} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#03</td>
-            <td>
-              <AvatarName size={36} originalName="Johann Sebastian Bach" />
-            </td>
-            <td>Johann Sebastian Bach</td>
-            <td>johann.sebastian@gmail.com</td>
-            <td>
-              <ActionButtons id={3} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#04</td>
-            <td>
-              <AvatarName size={36} originalName="ILkui" />
-            </td>
-            <td>ILkui</td>
-            <td>ilkui@gmail.com</td>
-            <td>
-              <ActionButtons id={4} options={actionOptions} />
-            </td>
-          </tr>
-
-          <tr>
-            <td>#05</td>
-            <td>
-              <AvatarName size={36} originalName="Eric" />
-            </td>
-            <td>Eric</td>
-            <td>lessa.eric@gmail.com</td>
-            <td>
-              <ActionButtons id={5} options={actionOptions} />
-            </td>
-          </tr>
+          {deliverymanList &&
+            deliverymanList.map((deliveryman) => (
+              <tr>
+                <td>{deliveryman.hashId}</td>
+                <td>
+                  <AvatarName size={36} originalName={deliveryman.name} />
+                </td>
+                <td>{deliveryman.name}</td>
+                <td>{deliveryman.email}</td>
+                <td>
+                  <ActionButtons id={deliveryman.id} options={actionOptions} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </TableWrapper>
     </main>
