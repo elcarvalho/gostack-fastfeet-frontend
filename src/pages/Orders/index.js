@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { MdAdd } from 'react-icons/md';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { format, parseISO } from 'date-fns';
+
+import { MdAdd, MdBlock } from 'react-icons/md';
 
 import transformHashId from '~/utils/transformHashId';
 
@@ -10,14 +12,20 @@ import AvatarName from '~/components/AvatarName';
 import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
 import Search from '~/components/Search';
+import Modal from '~/components/Modal';
+import ModalContent from '~/components/ModalContent';
 
 import { StatusTag, Deliveryman } from './styles';
 
 export default function Orders() {
   const [orderList, setOrderList] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const modalRef = useRef(null);
 
   const handleShow = (id) => {
-    alert(`Visualizando ${id}`);
+    const order = orderList.find((o) => o.id === id);
+    setSelectedOrder(order);
+    modalRef.current.handleOpenModal();
   };
 
   const handleEdit = (id) => {
@@ -63,6 +71,15 @@ export default function Orders() {
       orders.map((order) => {
         order.hashId = transformHashId(order.id, 3);
         order.status = getStatus(order);
+        order.startDateFmt = order.startDate
+          ? format(parseISO(order.startDate), 'dd/MM/yyyy')
+          : 'Não iniciado';
+        order.endDateFmt = order.endDate
+          ? format(parseISO(order.endDate), 'dd/MM/yyyy')
+          : null;
+        order.canceledAtFmt = order.canceledAt
+          ? format(parseISO(order.canceledAt), "dd/MM/yyyy 'às' HH:mm")
+          : null;
         return order;
       }),
     []
@@ -136,6 +153,37 @@ export default function Orders() {
           ))}
         </tbody>
       </TableWrapper>
+
+      <Modal ref={modalRef}>
+        {selectedOrder && (
+          <ModalContent>
+            <strong>Informações da encomenda</strong>
+            <p>
+              {selectedOrder.recipient.street}, {selectedOrder.recipient.number}
+            </p>
+            <p>
+              {selectedOrder.recipient.city} - {selectedOrder.recipient.state}
+            </p>
+            <p>{selectedOrder.zip}</p>
+            <strong>Datas</strong>
+            <p>Retirada: {selectedOrder.startDateFmt}</p>
+            {selectedOrder.endDateFmt && (
+              <p>Entregue: {selectedOrder.endDateFmt}</p>
+            )}
+            {selectedOrder.canceledAtFmt && (
+              <p>Cancelada: {selectedOrder.canceledAtFmt}</p>
+            )}
+            <strong>Assinatura do destinatário</strong>
+            <figure>
+              {selectedOrder.signature ? (
+                <img src={selectedOrder.signature.url} alt="signature" />
+              ) : (
+                <MdBlock size={36} color="#ddd" />
+              )}
+            </figure>
+          </ModalContent>
+        )}
+      </Modal>
     </main>
   );
 }
