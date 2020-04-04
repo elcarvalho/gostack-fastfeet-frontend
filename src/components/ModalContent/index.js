@@ -26,5 +26,10 @@ export default styled.div`
     align-items: center;
     width: 100%;
     padding: 10px 0;
+
+    img {
+      width: 100%;
+      max-width: 235px;
+    }
   }
 `;

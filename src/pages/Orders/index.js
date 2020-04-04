@@ -164,7 +164,7 @@ export default function Orders() {
             <p>
               {selectedOrder.recipient.city} - {selectedOrder.recipient.state}
             </p>
-            <p>{selectedOrder.zip}</p>
+            <p>{selectedOrder.recipient.zip}</p>
             <strong>Datas</strong>
             <p>Retirada: {selectedOrder.startDateFmt}</p>
             {selectedOrder.endDateFmt && (
