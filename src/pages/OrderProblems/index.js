@@ -1,16 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 
 import api from '~/services/api';
 import transformHashId from '~/utils/transformHashId';
+import excerptText from '~/utils/excerptText';
 
 import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
+import Modal from '~/components/Modal';
+import ModalContent from '~/components/ModalContent';
 
 export default function OrderProblems() {
   const [problemsList, setProblemsList] = useState([]);
+  const [selectedProblem, setSelectedProblem] = useState(null);
+  const modalRef = useRef(null);
 
-  const handleEdit = (id) => {
-    alert(`Editando ${id}`);
+  const handleShow = (id) => {
+    const problem = problemsList.find((o) => o.id === id);
+    setSelectedProblem(problem);
+    modalRef.current.handleOpenModal();
   };
 
   const handleDelete = (id) => {
@@ -21,7 +28,7 @@ export default function OrderProblems() {
     {
       type: 'edit',
       buttonTitle: 'Visualizar',
-      action: handleEdit,
+      action: handleShow,
     },
     {
       type: 'delete',
@@ -34,6 +41,7 @@ export default function OrderProblems() {
     (ordersProblems) =>
       ordersProblems.map((problem) => {
         problem.hashId = transformHashId(problem.id, 3);
+        problem.excerptText = excerptText(problem.description, 115);
         return problem;
       }),
     []
@@ -72,7 +80,7 @@ export default function OrderProblems() {
             problemsList.map((problem) => (
               <tr key={problem.hashId}>
                 <td>{problem.hashId}</td>
-                <td>{problem.description}</td>
+                <td>{problem.excerptText}</td>
                 <td>
                   <ActionButtons id={problem.id} options={actionOptions} />
                 </td>
@@ -80,6 +88,15 @@ export default function OrderProblems() {
             ))}
         </tbody>
       </TableWrapper>
+
+      <Modal ref={modalRef}>
+        {selectedProblem && (
+          <ModalContent>
+            <strong>Informações da encomenda</strong>
+            <p>{selectedProblem.description}</p>
+          </ModalContent>
+        )}
+      </Modal>
     </main>
   );
 }
