@@ -4,6 +4,7 @@ import { MdAdd } from 'react-icons/md';
 import transformHashId from '~/utils/transformHashId';
 
 import api from '~/services/api';
+import history from '~/services/history';
 
 import ActionsBar from '~/components/ActionsBar';
 import AvatarName from '~/components/AvatarName';
@@ -74,7 +75,10 @@ export default function Deliverymen() {
           placeholder="Buscar por entregadores"
         />
 
-        <button type="button">
+        <button
+          type="button"
+          onClick={() => history.push('/deliverymen/register')}
+        >
           <MdAdd size={21} color="#FFFFFF" />
           CADASTRAR
         </button>
