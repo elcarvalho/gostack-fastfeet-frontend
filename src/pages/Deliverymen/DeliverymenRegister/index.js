@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
 import AvatarInput from '~/components/AvatarInput';
 
@@ -24,10 +25,35 @@ export default function DeliverymenRegister() {
     history.goBack();
   };
 
-  const handleRegister = () => {
-    const { avatar_id, name, email } = formRef.current.getData();
+  const handleRegister = async () => {
+    try {
+      const data = formRef.current.getData();
 
-    dispatch(registerRequest(avatar_id, name, email));
+      formRef.current.setErrors({});
+
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Campo obrigatório'),
+        email: Yup.string()
+          .email('Você deve fornecer um e-mail válido')
+          .required('Campo obrigatório'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      const { avatar_id, name, email } = data;
+
+      dispatch(registerRequest(avatar_id, name, email));
+    } catch (err) {
+      const validationErrors = {};
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+        });
+        formRef.current.setErrors(validationErrors);
+      }
+    }
   };
 
   return (

@@ -38,6 +38,16 @@ export const Container = styled.div`
           color: #666666;
           font-size: 16px;
           padding: 12px 25px;
+
+          &.has-error {
+            box-shadow: 0px 1px 6px 3px rgba(222, 59, 59, 0.5);
+          }
+        }
+
+        span.error {
+          padding-top: 7px;
+          color: #de3b3b;
+          font-size: 14px;
         }
       }
     }
