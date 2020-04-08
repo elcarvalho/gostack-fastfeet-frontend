@@ -17,7 +17,7 @@ import Form from '../form';
 
 import { editRequest } from '~/store/modules/deliveryman/actions';
 
-export default function DeliverymenForm() {
+export default function DeliverymanEdit() {
   const [deliveryman, setDeliveryman] = useState();
   const dispatch = useDispatch();
   const formRef = useRef();

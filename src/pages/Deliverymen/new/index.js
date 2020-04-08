@@ -14,7 +14,7 @@ import Form from '../form';
 
 import { registerRequest } from '~/store/modules/deliveryman/actions';
 
-export default function DeliverymenForm() {
+export default function DeliverymanNew() {
   const dispatch = useDispatch();
   const formRef = useRef();
 
