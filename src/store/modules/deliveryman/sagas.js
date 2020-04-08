@@ -1,8 +1,10 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
+import history from '~/services/history';
 
-import { registerSuccess, registerFail } from './actions';
+//import { registerSuccess, registerFail } from './actions';
 
 export function* register({ payload }) {
   try {
@@ -13,9 +15,10 @@ export function* register({ payload }) {
       email,
     });
 
-    yield put(registerSuccess());
+    toast.success('Entregador cadastrado');
+    history.push('/deliverymen');
   } catch (error) {
-    yield put(registerFail());
+    toast.error('Erro ao registrar entregador');
   }
 }
 
