@@ -38,7 +38,19 @@ export function* edit({ payload }) {
   }
 }
 
+export function* remove({ payload }) {
+  try {
+    const { id } = payload;
+    yield call(api.delete, `deliverymen/${id}`);
+
+    toast.success('Entregador removido');
+  } catch (error) {
+    toast.error('Erro ao remover entregador');
+  }
+}
+
 export default all([
   takeLatest('@deliveryman/REGISTER_REQUEST', register),
   takeLatest('@deliveryman/EDIT_REQUEST', edit),
+  takeLatest('@deliveryman/REMOVE_REQUEST', remove),
 ]);

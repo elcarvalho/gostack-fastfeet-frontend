@@ -44,3 +44,10 @@ export function editFail() {
     type: '@deliveryman/EDIT_FAIL',
   };
 }
+
+export function removeRequest(id) {
+  return {
+    type: '@deliveryman/REMOVE_REQUEST',
+    payload: { id },
+  };
+}

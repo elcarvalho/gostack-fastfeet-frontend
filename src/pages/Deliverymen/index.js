@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { MdAdd } from 'react-icons/md';
 
 import transformHashId from '~/utils/transformHashId';
@@ -12,15 +13,24 @@ import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
 import Search from '~/components/Search';
 
+import { removeRequest } from '~/store/modules/deliveryman/actions';
+
 export default function Deliverymen() {
   const [deliverymanList, setDeliverymanList] = useState([]);
+  const dispatch = useDispatch();
 
   const handleEdit = (id) => {
     history.push(`/deliverymen/edit/${id}`);
   };
 
   const handleDelete = (id) => {
-    alert(`Remover ${id}`);
+    const deliveryman = deliverymanList.find((d) => d.id === id);
+    const confirmMessage = `Deseja remover o usuário: ${deliveryman.name}`;
+    const confirmed = window.confirm(confirmMessage);
+
+    if (confirmed) {
+      dispatch(removeRequest(id));
+    }
   };
 
   const actionOptions = [
