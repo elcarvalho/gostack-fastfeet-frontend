@@ -7,7 +7,7 @@ import SignIn from '~/pages/SignIn';
 import Orders from '~/pages/Orders';
 
 import Deliverymen from '~/pages/Deliverymen';
-import DeliverymenRegister from '~/pages/Deliverymen/DeliverymenRegister';
+import DeliverymenForm from '~/pages/Deliverymen/DeliverymenForm';
 
 import Recipients from '~/pages/Recipients';
 import OrderProblems from '~/pages/OrderProblems';
@@ -22,7 +22,7 @@ export default function Routes() {
       <Route path="/deliverymen" exact component={Deliverymen} isPrivate />
       <Route
         path="/deliverymen/register"
-        component={DeliverymenRegister}
+        component={DeliverymenForm}
         isPrivate
       />
 

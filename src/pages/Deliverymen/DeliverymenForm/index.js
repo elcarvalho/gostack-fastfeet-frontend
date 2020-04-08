@@ -17,7 +17,7 @@ import { Container } from './styles';
 
 import { registerRequest } from '~/store/modules/deliveryman/actions';
 
-export default function DeliverymenRegister() {
+export default function DeliverymenForm() {
   const dispatch = useDispatch();
   const formRef = useRef();
 
