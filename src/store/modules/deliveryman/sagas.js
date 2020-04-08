@@ -1,4 +1,4 @@
-import { all, takeLatest, call, put } from 'redux-saga/effects';
+import { all, takeLatest, call } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
@@ -22,4 +22,23 @@ export function* register({ payload }) {
   }
 }
 
-export default all([takeLatest('@deliveryman/REGISTER_REQUEST', register)]);
+export function* edit({ payload }) {
+  try {
+    const { id, avatar_id, name, email } = payload;
+    yield call(api.put, `deliverymen/${id}`, {
+      avatar_id,
+      name,
+      email,
+    });
+
+    toast.success('Dados salvos!');
+    history.push('/deliverymen');
+  } catch (error) {
+    toast.error('Erro ao editar entregador');
+  }
+}
+
+export default all([
+  takeLatest('@deliveryman/REGISTER_REQUEST', register),
+  takeLatest('@deliveryman/EDIT_REQUEST', edit),
+]);

@@ -10,8 +10,8 @@ import { Container } from './styles';
 export default function AvatarInput() {
   const { defaultValue, registerField } = useField('avatar');
 
-  const [file, setFile] = useState(defaultValue && defaultValue.id);
-  const [preview, setPreview] = useState(defaultValue && defaultValue.url);
+  const [file, setFile] = useState();
+  const [preview, setPreview] = useState();
 
   const ref = useRef();
 
@@ -24,6 +24,13 @@ export default function AvatarInput() {
       });
     }
   }, [ref, registerField]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      setFile(defaultValue.id);
+      setPreview(defaultValue.url);
+    }
+  }, [defaultValue]);
 
   const handleChange = async (e) => {
     const data = new FormData();

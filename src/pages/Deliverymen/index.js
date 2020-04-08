@@ -16,7 +16,7 @@ export default function Deliverymen() {
   const [deliverymanList, setDeliverymanList] = useState([]);
 
   const handleEdit = (id) => {
-    alert(`Editando ${id}`);
+    history.push(`/deliverymen/edit/${id}`);
   };
 
   const handleDelete = (id) => {
@@ -75,10 +75,7 @@ export default function Deliverymen() {
           placeholder="Buscar por entregadores"
         />
 
-        <button
-          type="button"
-          onClick={() => history.push('/deliverymen/register')}
-        >
+        <button type="button" onClick={() => history.push('/deliverymen/new')}>
           <MdAdd size={21} color="#FFFFFF" />
           CADASTRAR
         </button>

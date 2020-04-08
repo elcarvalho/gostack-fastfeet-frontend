@@ -1,31 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Form } from '@unform/web';
 import * as Yup from 'yup';
-
-import AvatarInput from '~/components/AvatarInput';
-
-import history from '~/services/history';
-
+import { toast } from 'react-toastify';
 import { MdChevronLeft, MdDone } from 'react-icons/md';
 
+import api from '~/services/api';
+import history from '~/services/history';
+
 import SectionHeader from '~/components/SectionHeader';
-import Input from '~/components/Input';
+import Container from '~/components/Container';
+import MainWrapper from '~/components/MainWrapper';
 import Button from '~/components/Button';
 
-import { Container } from './styles';
+import Form from '../form';
 
-import { registerRequest } from '~/store/modules/deliveryman/actions';
+import { editRequest } from '~/store/modules/deliveryman/actions';
 
 export default function DeliverymenForm() {
+  const [deliveryman, setDeliveryman] = useState();
   const dispatch = useDispatch();
   const formRef = useRef();
+  const { id } = useParams();
 
   const handleGoBack = () => {
     history.goBack();
   };
 
-  const handleRegister = async () => {
+  const handleSubmit = async () => {
     try {
       const data = formRef.current.getData();
 
@@ -42,9 +44,9 @@ export default function DeliverymenForm() {
         abortEarly: false,
       });
 
-      const { avatar_id, name, email } = data;
+      const { id, name, email, avatar_id } = data;
 
-      dispatch(registerRequest(avatar_id, name, email));
+      dispatch(editRequest(id, avatar_id, name, email));
     } catch (err) {
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
@@ -56,6 +58,22 @@ export default function DeliverymenForm() {
     }
   };
 
+  const loadDeliveryman = useCallback(async () => {
+    try {
+      const response = await api.get(`deliverymen/${id}`);
+      const [data] = response.data;
+      setDeliveryman(data);
+    } catch (error) {
+      toast.error('Falha ao obter os dados do entregador.');
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      loadDeliveryman();
+    }
+  }, [loadDeliveryman, id]);
+
   return (
     <Container>
       <SectionHeader>
@@ -66,32 +84,16 @@ export default function DeliverymenForm() {
             <MdChevronLeft size={26} color="#ffffff" />
             VOLTAR
           </Button>
-          <Button type="button" onClick={handleRegister}>
+          <Button type="button" onClick={handleSubmit}>
             <MdDone size={26} color="#ffffff" />
             SALVAR
           </Button>
         </div>
       </SectionHeader>
 
-      <main>
-        <Form ref={formRef}>
-          <AvatarInput name="avatar_id" />
-
-          <label htmlFor="name">
-            <strong>Nome</strong>
-            <Input name="name" id="name" placeholder="John Doe" />
-          </label>
-
-          <label htmlFor="email">
-            <strong>Email</strong>
-            <Input
-              name="email"
-              id="email"
-              placeholder="contato@entregador.com"
-            />
-          </label>
-        </Form>
-      </main>
+      <MainWrapper>
+        <Form initialData={deliveryman} formRef={formRef} />
+      </MainWrapper>
     </Container>
   );
 }
