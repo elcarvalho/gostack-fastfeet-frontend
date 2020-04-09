@@ -4,7 +4,7 @@ import { darken } from 'polished';
 export default styled.button`
   align-items: center;
   border: 0;
-  background: #7d40e7;
+  background: ${(props) => (props.bgColor ? props.bgColor : '#7d40e7')};
   border-radius: 4px;
   color: #ffffff;
   display: flex;
