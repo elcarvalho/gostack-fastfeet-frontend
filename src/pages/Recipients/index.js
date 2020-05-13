@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { MdAdd } from 'react-icons/md';
 
 import api from '~/services/api';
+import history from '~/services/history';
 import transformHashId from '~/utils/transformHashId';
 
 import ActionsBar from '~/components/ActionsBar';
@@ -74,7 +75,7 @@ export default function Recipients() {
           placeholder="Buscar por destinatários"
         />
 
-        <button type="button">
+        <button type="button" onClick={() => history.push('/recipients/new')}>
           <MdAdd size={21} color="#FFFFFF" />
           CADASTRAR
         </button>
