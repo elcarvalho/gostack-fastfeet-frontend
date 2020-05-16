@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 export default styled.button`
@@ -16,6 +16,13 @@ export default styled.button`
   transition: background 0.2s;
 
   &:hover {
-    background: ${darken(0.1, '#7d40e7')};
+    ${(props) =>
+      props.bgColor
+        ? css`
+            background: ${darken(0.1, props.bgColor)};
+          `
+        : css`
+            background: ${darken(0.1, '#7d40e7')};
+          `};
   }
 `;

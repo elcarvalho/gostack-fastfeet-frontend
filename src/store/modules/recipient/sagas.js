@@ -25,4 +25,28 @@ export function* register({ payload }) {
   }
 }
 
-export default all([takeLatest('@recipient/REGISTER_REQUEST', register)]);
+export function* edit({ payload }) {
+  try {
+    const { id, name, street, number, complement, city, state, zip } = payload;
+
+    yield call(api.put, `recipients/${id}`, {
+      name,
+      street,
+      number,
+      complement,
+      city,
+      state,
+      zip,
+    });
+
+    toast.success('Destinatário editado');
+    history.push('/recipients');
+  } catch (error) {
+    toast.error('Erro ao editar destinatário');
+  }
+}
+
+export default all([
+  takeLatest('@recipient/REGISTER_REQUEST', register),
+  takeLatest('@recipient/EDIT_REQUEST', edit),
+]);

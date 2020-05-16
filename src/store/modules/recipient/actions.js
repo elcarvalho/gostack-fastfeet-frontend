@@ -20,3 +20,28 @@ export function registerRequest(
     },
   };
 }
+
+export function editRequest(
+  id,
+  name,
+  street,
+  number,
+  complement,
+  city,
+  state,
+  zip
+) {
+  return {
+    type: '@recipient/EDIT_REQUEST',
+    payload: {
+      id,
+      name,
+      street,
+      number,
+      complement,
+      city,
+      state,
+      zip,
+    },
+  };
+}

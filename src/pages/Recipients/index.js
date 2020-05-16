@@ -14,7 +14,7 @@ export default function Recipients() {
   const [recipientList, setRecipientList] = useState([]);
 
   const handleEdit = (id) => {
-    alert(`Editando ${id}`);
+    history.push(`/recipients/edit/${id}`);
   };
 
   const handleDelete = (id) => {

@@ -3,9 +3,11 @@ import Input from '~/components/Input';
 
 import { RecipientForm } from './styles';
 
-export default function Form({ formRef }) {
+export default function Form({ initialData, formRef }) {
   return (
-    <RecipientForm ref={formRef}>
+    <RecipientForm initialData={initialData} ref={formRef}>
+      <Input name="id" className="hidden" />
+
       <section>
         <label htmlFor="name">
           <strong>Nome</strong>
