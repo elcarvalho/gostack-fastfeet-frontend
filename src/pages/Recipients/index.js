@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { MdAdd } from 'react-icons/md';
 
 import api from '~/services/api';
@@ -10,15 +11,24 @@ import ActionButtons from '~/components/ActionButtons';
 import TableWrapper from '~/components/TableWrapper';
 import Search from '~/components/Search';
 
+import { removeRequest } from '~/store/modules/recipient/actions';
+
 export default function Recipients() {
   const [recipientList, setRecipientList] = useState([]);
+  const dispatch = useDispatch();
 
   const handleEdit = (id) => {
     history.push(`/recipients/edit/${id}`);
   };
 
   const handleDelete = (id) => {
-    alert(`Remover ${id}`);
+    const recipient = recipientList.find((d) => d.id === id);
+    const confirmMessage = `Deseja remover o destinatário: ${recipient.name}?`;
+    const confirmed = window.confirm(confirmMessage);
+
+    if (confirmed) {
+      dispatch(removeRequest(id));
+    }
   };
 
   const actionOptions = [

@@ -45,3 +45,11 @@ export function editRequest(
     },
   };
 }
+export function removeRequest(id) {
+  return {
+    type: '@recipient/REMOVE_REQUEST',
+    payload: {
+      id,
+    },
+  };
+}

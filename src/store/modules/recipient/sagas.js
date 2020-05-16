@@ -46,7 +46,19 @@ export function* edit({ payload }) {
   }
 }
 
+export function* remove({ payload }) {
+  try {
+    const { id } = payload;
+    yield call(api.delete, `recipients/${id}`);
+
+    toast.success('Destinatário removido');
+  } catch (error) {
+    toast.error('Erro ao remover destinatário');
+  }
+}
+
 export default all([
   takeLatest('@recipient/REGISTER_REQUEST', register),
   takeLatest('@recipient/EDIT_REQUEST', edit),
+  takeLatest('@recipient/REMOVE_REQUEST', remove),
 ]);
